@@ -21,7 +21,7 @@ variables = [
     "XRPH.A6R5.B1:MEAS_LIMIT_WARN_INNER_LU",
     "XRPH.A6R5.B1:MEAS_LVDT_LU",
     "LHC.BCTDC.A6R4.B1:BEAM_INTENSITY",
-    "XRPH.B6R5.B1:TEMPFLOUT"
+    "XRPH.A6R5.B1:TEMPFLOUT"
 ]
 
 labels = ["Inner warning limit", "LVDT measurement", "Beam Intensity", "Flange temperature"]
