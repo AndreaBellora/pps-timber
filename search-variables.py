@@ -9,6 +9,6 @@ try:
         # Get variable pattern from user input
         var_pattern = input("Enter variable pattern (e.g., 'HX:BETA%', use % as wildcard): ")
         print(f"Searching for variables matching pattern: {var_pattern}")
-        pprint(ldb.search_variables(var_pattern))
+        pprint(ldb.get_variable_description(var_pattern))
 except (KeyboardInterrupt, EOFError):
     print("\nExiting.")
