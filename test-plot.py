@@ -16,7 +16,7 @@ t_start = t_end - timedelta(hours=24)
 variables = [
     "LHC.BCTDC.A6R4.B1:BEAM_INTENSITY",
     "XRPH.A6L5.B2:MEAS_LIMIT_WARN_INNER_LU",
-    "XRPH.B6R5.B1:TEMPFLOUT"
+    "XRPH.D6R5.B1:TEMPFLOUT"
 ]
 
 labels = ["Beam Intensity", "Inner warning limit", "Flange temperature"]

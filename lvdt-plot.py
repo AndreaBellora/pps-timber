@@ -40,7 +40,7 @@ if len(labels) < len(variables):
 data = None
 # Check if cached data, matching the query, exist already
 try:
-    with open("cached_data.pkl", "rb") as f:
+    with open("cached_data_lvdt.pkl", "rb") as f:
         cached_data = pickle.load(f)
         # Check if cached data matches the current query parameters (variables and time range)
         if (set(variables).issubset(set(cached_data.keys())) and
@@ -58,12 +58,12 @@ try:
             t1 = t_start.timestamp()
             t2 = t_end.timestamp()
 
-            data = ldb.getAligned(variables, t1, t2)
+            data = ldb.get_aligned(variables, t1, t2)
             
             data['t_start'] = t_start
             data['t_end'] = t_end
             
-            with open("cached_data.pkl", "wb") as f:
+            with open("cached_data_lvdt.pkl", "wb") as f:
                 pickle.dump(data, f)
             
 except FileNotFoundError:
@@ -75,13 +75,13 @@ except FileNotFoundError:
     t1 = t_start.timestamp()
     t2 = t_end.timestamp()
 
-    data = ldb.getAligned(variables, t1, t2)
+    data = ldb.get_aligned(variables, t1, t2)
     
     data['t_start'] = t_start
     data['t_end'] = t_end
     
     # Cache the data for future use
-    with open("cached_data.pkl", "wb") as f:
+    with open("cached_data_lvdt.pkl", "wb") as f:
         pickle.dump(data, f)
 
 # Plot

@@ -1,3 +1,7 @@
+## Data access
+
+Require access to the [it-hadoop-nxcals-pro-analytics](https://gms.web.cern.ch/group/it-hadoop-nxcals-pro-analytics/details) e-group in order to access the data.
+
 ## Installation
 
 Simply run `source setup.sh` every time you start working with this code.
