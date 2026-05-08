@@ -58,7 +58,7 @@ try:
             t1 = t_start.timestamp()
             t2 = t_end.timestamp()
 
-            data = ldb.get_aligned(variables, t1, t2)
+            data = ldb.getAligned(variables, t1, t2)
             
             data['t_start'] = t_start
             data['t_end'] = t_end
@@ -75,7 +75,7 @@ except FileNotFoundError:
     t1 = t_start.timestamp()
     t2 = t_end.timestamp()
 
-    data = ldb.get_aligned(variables, t1, t2)
+    data = ldb.getAligned(variables, t1, t2)
     
     data['t_start'] = t_start
     data['t_end'] = t_end
@@ -92,6 +92,12 @@ axs = [ax]
 for i, var in enumerate(variables):
     timestamps = data['timestamps']
     values = data[var]
+    
+    # Fix potential length mismatch between timestamps and values
+    min_len = min(len(timestamps), len(values))
+    timestamps = timestamps[:min_len]
+    values = values[:min_len]
+    
     times = [datetime.fromtimestamp(ts) for ts in timestamps]
 
     if i == 0:
