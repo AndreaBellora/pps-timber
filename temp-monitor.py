@@ -99,15 +99,9 @@ if __name__ == "__main__":
             variables.append(f"XRPH.{timber_name}:TEMPFLOUT")
         variables.append(f"XRPH.{timber_name}:LU:TEMP01")
 
-    from pprint import pprint
-    print("Variables to query:")
-    pprint(variables)
 
     data = get_or_cache_data(variables, t_start, t_end, "cached_data_temp.pkl")
     
-    pprint("Data keys:")
-    pprint(list(data.keys()))
-
     # Create plots in a layout with 2 columns and as many rows as needed
     ncols = 2
     nrows = (len(pps_rp_name_map) + ncols - 1) // ncols
@@ -135,8 +129,6 @@ if __name__ == "__main__":
             elif var.startswith('XRPH') and rpname in var:
                 vars_to_plot.append(var)
                 
-        print(f"Variables to plot for {rp}:")
-        pprint(vars_to_plot)
         if len(labels) < len(vars_to_plot):
             print("Warning: Not enough labels provided for the variables. Some variables will be unlabeled in the plot.")
             for i in range (len(labels), len(vars_to_plot)):
