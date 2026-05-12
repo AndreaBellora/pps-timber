@@ -12,7 +12,7 @@ colors = ['#3f90da','#ffa90e','#bd1f01','#94a4a2','#832db6','#a96b59','#e76300',
 # For specific time use datetime(2024, 6, 1, 12, 0, 0) for example (year, month, day, hour, minute, second)
 # t_end = datetime.now() # End time is current time minus 5 minutes to ensure data availability
 t_end = datetime(2026, 5, 8, 11, 0, 0) # End time is current time minus 5 minutes to ensure data availability
-t_start = t_end - timedelta(hours=6)
+t_start = t_end - timedelta(hours=24)
 
 # Per-variable y-limits (None means auto-scale)
 y_limits = [None, None, None, None]  # [(y_min, y_max), ...]

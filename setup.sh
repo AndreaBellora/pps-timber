@@ -9,7 +9,7 @@ else
     source venv/bin/activate
 
     # Install the required packages
-    pip install numpy scipy matplotlib ipython pandas pyarrow cmsstyle
+    pip install numpy scipy matplotlib ipython pandas pyarrow cmsstyle ipykernel
 
     # Install pytimber
     pip install git+https://gitlab.cern.ch/acc-co/devops/python/acc-py-pip-config.git
