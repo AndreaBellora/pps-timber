@@ -96,7 +96,7 @@ def get_t1_data_with_caching(variables,
 
 def get_t2_data_with_caching(variables, 
                              fillInterval, 
-                             no_remove_t1_cache=False, 
+                             no_remove_t1=False, 
                              t1_cache_path='cache/cached_data_analysis_{fill_to_analyze}_t1.pkl',
                              t2_cache_path='cache/cached_data_analysis_{fill_to_analyze}_t2.pkl',
                              ldb=None):
@@ -132,7 +132,6 @@ def get_t2_data_with_caching(variables,
     return df_t2
 
 def make_t3_data(df_t2, 
-                 no_remove_t2=False, 
                  t2_cache_path='cache/cached_data_analysis_{fill_to_analyze}_t2.pkl'):
     lvdt_cols = [c for c in df_t2.columns if 'MEAS_LVDT_LU' in c]
     limit_cols = [c for c in df_t2.columns if 'MEAS_LIMIT_WARN_INNER_LU' in c]
@@ -199,15 +198,11 @@ def make_t3_data(df_t2,
     # Find unique fill numbers in df_t3
     fills = df_t3['fill'].unique()
     
-    if not no_remove_t2:
-        for fill in fills:
-            t2_cache_path_fill = t2_cache_path.format(fill_to_analyze=fill)
-            if os.path.exists(t2_cache_path_fill):
-                os.remove(t2_cache_path_fill)
     return df_t3
 
 def get_t3_data_with_caching(variables, 
                              fill_list, 
+                             no_remove_t1=False,
                              no_remove_t2=False,
                              t1_cache_path='cache/cached_data_analysis_{fill_to_analyze}_t1.pkl',
                              t2_cache_path='cache/cached_data_analysis_{fill_to_analyze}_t2.pkl',
@@ -227,11 +222,25 @@ def get_t3_data_with_caching(variables,
             df_t3 = pickle.load(f)
     else:
         for group in fill_groups:
+            # Dataframe to store t2 data for the group
             df_t2 = pd.DataFrame()
             for fill in group:
                 print(f"Processing fill {fill.fillNumber}...")
-                df_t2 = pd.concat([df_t2,get_t2_data_with_caching(variables, fill, t1_cache_path, t2_cache_path, ldb)])
-            df_t3 = pd.concat([df_t3,make_t3_data(df_t2, no_remove_t2=no_remove_t2, t2_cache_path=t2_cache_path)])
+                # Get the t2 data for the fill
+                df_t2 = pd.concat([df_t2,get_t2_data_with_caching(variables, fill, 
+                                                                  no_remove_t1=no_remove_t1, 
+                                                                  t1_cache_path=t1_cache_path, 
+                                                                  t2_cache_path=t2_cache_path, 
+                                                                  ldb=ldb)])
+
+            # Generate the t3 data for this group of fills
+            df_t3 = pd.concat([df_t3,make_t3_data(df_t2, t2_cache_path=t2_cache_path)])
+            if not no_remove_t2:
+                for fill in group:
+                    # Delete t2 cache
+                    t2_cache_path_file = t2_cache_path.format(fill_to_analyze=fill.fillNumber)
+                    print(f"Removing {t2_cache_path_file}")
+                    os.remove(t2_cache_path_file)
         with open(t3_cache_path, "wb") as f:
             pickle.dump(df_t3, f)
     return df_t3
@@ -303,5 +312,3 @@ if __name__ == '__main__':
     print('Extracted Tier 3 dataframe structure:')
     print(df_t3.info())
     print('Dataframe saved to file: ', t3_cache_output)
-
-
