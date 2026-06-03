@@ -25,6 +25,15 @@ variables = [
     "LHC.BCTFR.B6R4.B2:BUNCH_COUNT",
 ]
 
+for rp, timber_name in pps_rp_name_map.items():
+    if timber_name.startswith("E"):
+        variables.append(f"XRPH.{timber_name}:LU:TEMPFLOUT")
+    else:
+        variables.append(f"XRPH.{timber_name}:TEMPFLOUT")
+    variables.append(f"XRPH.{timber_name}:MEAS_LIMIT_WARN_INNER_LU")    
+    variables.append(f"XRPH.{timber_name}:MEAS_LVDT_LU")
+    variables.append(f"XRPH.{timber_name}:LU:TEMP01")
+
 def get_t1_data_with_caching(variables, 
                              fillInterval, 
                              cache_file_path='cache/cached_data_analysis_{fill_to_analyze}_t1.pkl', 
@@ -153,7 +162,7 @@ def make_t3_data(df_t2,
     distance_df = distance_df.groupby('fill').min().reset_index()
 
     # Compute the maximum temperature and the temperature at insertion time
-    temp_cols = [c for c in df_t2.columns if "TEMPFLOUT" in c]
+    temp_cols = [c for c in df_t2.columns if ("TEMPFLOUT" in c or "TEMP01" in c)]
     first_vals = df_t2.sort_values("time").groupby("fill")[temp_cols].first()
     max_vals = df_t2.groupby("fill")[temp_cols].max()
 
