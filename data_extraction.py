@@ -291,6 +291,7 @@ def format_df(df_t3):
     
     df_final['rp'] = df_final['xrph'].map(mapping)
     df_final['TEMPFLOUT_excursion'] = df_final['TEMPFLOUT_max'] - df_final['TEMPFLOUT_first']
+    df_final['TEMP01_excursion'] = df_final['LU:TEMP01_max'] - df_final['LU:TEMP01_first']
     df_final['LVDT_excursion'] = df_final['MEAS_LVDT_LU_initial']-(df_final['MEAS_LIMIT_WARN_INNER_LU_limit']+df_final['MIN_DIST_FROM_WARN_LIMIT'])
     
     return df_final
@@ -321,3 +322,6 @@ if __name__ == '__main__':
     print('Extracted Tier 3 dataframe structure:')
     print(df_t3.info())
     print('Dataframe saved to file: ', t3_cache_output)
+
+    print('Formatted dataframe structure:')
+    print(format_df(df_t3).info())
